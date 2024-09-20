@@ -1,5 +1,7 @@
 package com.enigma.loan_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,19 +20,27 @@ import java.util.Date;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonIgnore
     private String id;
+
     @Column(name = "first_name")
     private String firstName;
+
     @Column(name = "last_name")
     private String lastName;
+
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
+
     @Column
     private String phone;
+
     @Column
     private String status;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @JsonIgnore
     private User user;
 }

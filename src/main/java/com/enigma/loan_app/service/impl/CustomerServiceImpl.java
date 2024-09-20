@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerImpl implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
@@ -25,12 +25,12 @@ public class CustomerImpl implements CustomerService {
 
     @Override
     public Customer findCustomerById(String id) {
-        return null;
+        return customerRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Customer> findAllCustomers() {
-        return List.of();
+        return customerRepository.findAll();
     }
 
     @Override
