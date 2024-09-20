@@ -1,6 +1,5 @@
 package com.enigma.loan_app.controller;
 
-import com.enigma.loan_app.dto.request.InstallmentTypeRequest;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.entity.InstallmentType;
 import com.enigma.loan_app.service.InstallmentTypeService;
@@ -12,15 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/installment-type")
-//@PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+@PreAuthorize("hasAnyRole('ADMIN','STAFF')")
 @RequiredArgsConstructor
 public class InstallmentTypeController {
     private final InstallmentTypeService installmentTypeService;
-
-    @GetMapping
-    public ResponseEntity<?> test(){
-        return ResponseEntity.ok("Ok");
-    }
 
     @PostMapping
     public ResponseEntity<?> createInstallmentType(@RequestBody InstallmentType installmentType) {
@@ -30,5 +24,15 @@ public class InstallmentTypeController {
                 .data(createdInstallmentType)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInstallmentTypeById(@PathVariable("id") String id) {
+        InstallmentType installmentType = installmentTypeService.findInstallmentTypeById(id);
+        CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
+                .message("Successfully retrieved installment type")
+                .data(installmentType)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

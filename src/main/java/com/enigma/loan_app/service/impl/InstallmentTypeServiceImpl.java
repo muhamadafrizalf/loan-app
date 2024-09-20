@@ -19,4 +19,10 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
         return installmentTypeRepository.saveAndFlush(installmentType);
 
     }
+
+    @Override
+    public InstallmentType findInstallmentTypeById(String id) {
+        if (id == null || id.isEmpty()) throw new IllegalArgumentException("Installment type id cannot be null or empty");
+        return installmentTypeRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
 }
