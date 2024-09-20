@@ -6,5 +6,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
     AppUser loadUserById(String id);
-    void deleteUser(User user);
+    void delete(User user);
 }

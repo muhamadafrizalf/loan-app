@@ -21,40 +21,40 @@ public class CustomerServiceImpl implements CustomerService {
     private final UserService userService;
 
     @Override
-    public Customer createCustomer(Customer customer) {
+    public Customer create(Customer customer) {
         return customerRepository.saveAndFlush(customer);
     }
 
     @Override
-    public Customer updateCustomer(CustomerRequest customerRequest) {
-        Customer customer = findCustomerById(customerRequest.getId());
+    public Customer update(CustomerRequest customerRequest) {
+        Customer customer = findById(customerRequest.getId());
 
         customer.setFirstName(customerRequest.getFirstName());
         customer.setLastName(customerRequest.getLastName());
         customer.setPhone(customerRequest.getPhone());
         customer.setDateOfBirth(customerRequest.getDateOfBirth());
 
-        return createCustomer(customer);
+        return create(customer);
     }
 
     @Override
-    public Customer findCustomerById(String id) {
+    public Customer findById(String id) {
         if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer id cannot be empty");
         return customerRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
     }
 
     @Override
-    public List<Customer> findAllCustomers() {
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public void deleteCustomerById(String id) {
-        Customer customer = findCustomerById(id);
+    public void deleteById(String id) {
+        Customer customer = findById(id);
         customer.setStatus(EStatus.NONACTIVE);
-        userService.deleteUser(customer.getUser());
+        userService.delete(customer.getUser());
         customer.setUser(null);
-        createCustomer(customer);
+        create(customer);
     }
 }

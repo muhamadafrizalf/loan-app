@@ -18,7 +18,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCustomerById(@PathVariable String id) {
-        Customer customer = customerService.findCustomerById(id);
+        Customer customer = customerService.findById(id);
         CommonResponse<Customer> response = CommonResponse.<Customer>builder()
                 .message("Successfully retrieved customer")
                 .data(customer)
@@ -28,7 +28,7 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<?> getAllCustomers() {
-        List<Customer> customerList = customerService.findAllCustomers();
+        List<Customer> customerList = customerService.findAll();
         CommonResponse<List<Customer>> response = CommonResponse.<List<Customer>>builder()
                 .message("Successfully retrieved "+ customerList.size() +" customer(s)")
                 .data(customerList)
@@ -38,7 +38,7 @@ public class CustomerController {
 
     @PutMapping
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) {
-        Customer customer = customerService.updateCustomer(customerRequest);
+        Customer customer = customerService.update(customerRequest);
         CommonResponse<Customer> response = CommonResponse.<Customer>builder()
                 .message("Successfully updated customer")
                 .data(customer)
@@ -48,7 +48,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable String id) {
-        customerService.deleteCustomerById(id);
+        customerService.deleteById(id);
         CommonResponse<?> response = CommonResponse.builder()
                 .message("Successfully deleted customer")
                 .build();

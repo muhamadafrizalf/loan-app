@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/installment-type")
+@RequestMapping("/api/installment-types")
 @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
 @RequiredArgsConstructor
 public class InstallmentTypeController {
@@ -20,7 +20,7 @@ public class InstallmentTypeController {
 
     @PostMapping
     public ResponseEntity<?> createInstallmentType(@RequestBody InstallmentType installmentType) {
-        InstallmentType createdInstallmentType = installmentTypeService.createInstallmentType(installmentType);
+        InstallmentType createdInstallmentType = installmentTypeService.create(installmentType);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
                 .message("Installment type created")
                 .data(createdInstallmentType)
@@ -30,7 +30,7 @@ public class InstallmentTypeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getInstallmentTypeById(@PathVariable("id") String id) {
-        InstallmentType installmentType = installmentTypeService.findInstallmentTypeById(id);
+        InstallmentType installmentType = installmentTypeService.findById(id);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
                 .message("Successfully retrieved installment type")
                 .data(installmentType)
@@ -40,7 +40,7 @@ public class InstallmentTypeController {
 
     @GetMapping
     public ResponseEntity<?> getAllInstallmentTypes() {
-        List<InstallmentType> installmentTypes = installmentTypeService.findAllInstallmentTypes();
+        List<InstallmentType> installmentTypes = installmentTypeService.findAll();
         CommonResponse<List<InstallmentType>> response = CommonResponse.<List<InstallmentType>>builder()
                 .message("Successfully retrieved " + installmentTypes.size() + " installment type(s)")
                 .data(installmentTypes)
@@ -48,9 +48,21 @@ public class InstallmentTypeController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateInstallmentType(
+            @RequestBody InstallmentType installmentType
+    ) {
+        InstallmentType updatedInstallmentType = installmentTypeService.update(installmentType);
+        CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
+                .message("Installment type updated")
+                .data(updatedInstallmentType)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteInstallmentTypeById(@PathVariable("id") String id) {
-        installmentTypeService.deleteInstallmentTypeById(id);
+        installmentTypeService.deleteById(id);
         CommonResponse<?> response = CommonResponse.builder()
                 .message("Installment type deleted")
                 .build();

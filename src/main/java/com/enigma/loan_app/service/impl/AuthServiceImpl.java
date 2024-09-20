@@ -49,11 +49,11 @@ public class AuthServiceImpl implements AuthService {
 
 
         List<Role> roles = new ArrayList<>();
-        Role roleCustomer = roleService.getOrSaveRole(Role.builder().name(ERole.ROLE_CUSTOMER).build());
+        Role roleCustomer = roleService.create(Role.builder().name(ERole.ROLE_CUSTOMER).build());
         roles.add(roleCustomer);
         User user = createUser(authRequest, roles);
         Customer customer = Customer.builder().user(user).build();
-        customerService.createCustomer(customer);
+        customerService.create(customer);
 
         return RegisterResponse.builder()
                 .email(user.getEmail())
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
         roles.add(roleStaff);
         User user = createUser(authRequest, roles);
         Customer customer = Customer.builder().user(user).build();
-        customerService.createCustomer(customer);
+        customerService.create(customer);
 
         return RegisterResponse.builder()
                 .email(user.getEmail())

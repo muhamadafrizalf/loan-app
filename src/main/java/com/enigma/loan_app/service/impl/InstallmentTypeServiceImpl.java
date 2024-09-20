@@ -20,24 +20,30 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public InstallmentType createInstallmentType(InstallmentType installmentType) {
+    public InstallmentType create(InstallmentType installmentType) {
         Optional<InstallmentType> optionalInstallmentType = installmentTypeRepository.findByInstallmentType(installmentType.getInstallmentType());
         return optionalInstallmentType.orElseGet(() -> installmentTypeRepository.saveAndFlush(installmentType));
     }
 
     @Override
-    public InstallmentType findInstallmentTypeById(String id) {
+    public InstallmentType findById(String id) {
         if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Installment type id cannot be null or empty");
         return installmentTypeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Installment type not found"));
     }
 
     @Override
-    public List<InstallmentType> findAllInstallmentTypes() {
+    public List<InstallmentType> findAll() {
         return installmentTypeRepository.findAll();
     }
 
     @Override
-    public void deleteInstallmentTypeById(String id) {
+    public InstallmentType update(InstallmentType installmentType) {
+        findById(installmentType.getId());
+        return create(installmentType);
+    }
+
+    @Override
+    public void deleteById(String id) {
         if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Installment type id cannot be null or empty");
         installmentTypeRepository.deleteById(id);
     }
