@@ -28,7 +28,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private List<Role> roles;

@@ -8,7 +8,9 @@ import com.enigma.loan_app.service.CustomerService;
 import com.enigma.loan_app.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -37,10 +39,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findCustomerById(String id) {
-        if (id == null || id.isEmpty()) {
-            throw new RuntimeException();
-        }
-        return customerRepository.findById(id).orElseThrow(RuntimeException::new);
+        if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Customer id cannot be empty");
+        return customerRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
     }
 
     @Override

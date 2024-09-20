@@ -6,9 +6,12 @@ import com.enigma.loan_app.repository.InstallmentTypeRepository;
 import com.enigma.loan_app.service.InstallmentTypeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +21,14 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
     @Transactional(rollbackOn = Exception.class)
     @Override
     public InstallmentType createInstallmentType(InstallmentType installmentType) {
-        return installmentTypeRepository.saveAndFlush(installmentType);
-
+        Optional<InstallmentType> optionalInstallmentType = installmentTypeRepository.findByInstallmentType(installmentType.getInstallmentType());
+        return optionalInstallmentType.orElseGet(() -> installmentTypeRepository.saveAndFlush(installmentType));
     }
 
     @Override
     public InstallmentType findInstallmentTypeById(String id) {
-        if (id == null || id.isEmpty()) throw new IllegalArgumentException("Installment type id cannot be null or empty");
-        return installmentTypeRepository.findById(id).orElseThrow(RuntimeException::new);
+        if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Installment type id cannot be null or empty");
+        return installmentTypeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Installment type not found"));
     }
 
     @Override
