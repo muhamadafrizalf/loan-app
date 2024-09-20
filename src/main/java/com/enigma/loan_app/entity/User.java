@@ -29,7 +29,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private List<Role> roles;
 }

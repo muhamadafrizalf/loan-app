@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,29 +39,5 @@ public class AppUser implements UserDetails {
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-//        return UserDetails.super.isAccountNonExpired();
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-//        return UserDetails.super.isAccountNonLocked();
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-//        return UserDetails.super.isCredentialsNonExpired();
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-//        return UserDetails.super.isEnabled();
-        return true;
     }
 }
