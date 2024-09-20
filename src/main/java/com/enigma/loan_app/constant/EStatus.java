@@ -1,6 +1,6 @@
 package com.enigma.loan_app.constant;
 
-public enum Status {
+public enum EStatus {
     ACTIVE,
     NONACTIVE
 }

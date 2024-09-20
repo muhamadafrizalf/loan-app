@@ -1,6 +1,5 @@
 package com.enigma.loan_app.entity;
 
-import com.enigma.loan_app.constant.EInstallmentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,13 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "t_installment_type")
-public class InstallmentType {
+@Table(name = "t_loan_type")
+public class LoanType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "installment_type")
-    @Enumerated(EnumType.STRING)
-    private EInstallmentType installmentType;
+    @Column
+    private String type;
+
+    @Column(name = "max_loan")
+    private Double maxLoan;
 }

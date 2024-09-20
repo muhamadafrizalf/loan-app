@@ -1,8 +1,7 @@
 package com.enigma.loan_app.entity;
 
-import com.enigma.loan_app.constant.Status;
+import com.enigma.loan_app.constant.EStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -39,7 +37,7 @@ public class Customer {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private EStatus status;
 
     @OneToOne
     @JoinColumn(name = "user_id")

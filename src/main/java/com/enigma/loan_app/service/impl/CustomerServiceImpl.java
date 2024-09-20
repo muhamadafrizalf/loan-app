@@ -1,6 +1,6 @@
 package com.enigma.loan_app.service.impl;
 
-import com.enigma.loan_app.constant.Status;
+import com.enigma.loan_app.constant.EStatus;
 import com.enigma.loan_app.dto.request.CustomerRequest;
 import com.enigma.loan_app.entity.Customer;
 import com.enigma.loan_app.repository.CustomerRepository;
@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(String id) {
         Customer customer = findCustomerById(id);
-        customer.setStatus(Status.NONACTIVE);
+        customer.setStatus(EStatus.NONACTIVE);
         userService.deleteUser(customer.getUser());
         customer.setUser(null);
         createCustomer(customer);
