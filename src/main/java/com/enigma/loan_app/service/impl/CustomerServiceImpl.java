@@ -1,9 +1,12 @@
 package com.enigma.loan_app.service.impl;
 
+import com.enigma.loan_app.constant.Status;
 import com.enigma.loan_app.dto.request.CustomerRequest;
 import com.enigma.loan_app.entity.Customer;
 import com.enigma.loan_app.repository.CustomerRepository;
 import com.enigma.loan_app.service.CustomerService;
+import com.enigma.loan_app.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final UserService userService;
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -44,8 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll();
     }
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public void deleteCustomer(String id) {
-
+        Customer customer = findCustomerById(id);
+        customer.setStatus(Status.NONACTIVE);
+        userService.deleteUser(customer.getUser());
+        customer.setUser(null);
+        createCustomer(customer);
     }
 }

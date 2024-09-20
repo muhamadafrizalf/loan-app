@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService {
                 .roles(roles)
                 .build();
     }
+
+    @Override
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
 }

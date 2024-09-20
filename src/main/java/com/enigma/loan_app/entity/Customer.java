@@ -1,5 +1,6 @@
 package com.enigma.loan_app.entity;
 
+import com.enigma.loan_app.constant.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -37,7 +38,8 @@ public class Customer {
     private String phone;
 
     @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne
     @JoinColumn(name = "user_id")

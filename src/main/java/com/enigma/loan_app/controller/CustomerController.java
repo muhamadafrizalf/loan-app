@@ -46,5 +46,14 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable String id) {
+        customerService.deleteCustomer(id);
+        CommonResponse<?> response = CommonResponse.builder()
+                .message("Successfully deleted customer")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 
 }
