@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public void deleteCustomer(String id) {
+    public void deleteCustomerById(String id) {
         Customer customer = findCustomerById(id);
         customer.setStatus(EStatus.NONACTIVE);
         userService.deleteUser(customer.getUser());

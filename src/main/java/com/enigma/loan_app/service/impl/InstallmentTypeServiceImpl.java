@@ -35,4 +35,10 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
     public List<InstallmentType> findAllInstallmentTypes() {
         return installmentTypeRepository.findAll();
     }
+
+    @Override
+    public void deleteInstallmentTypeById(String id) {
+        if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Installment type id cannot be null or empty");
+        installmentTypeRepository.deleteById(id);
+    }
 }

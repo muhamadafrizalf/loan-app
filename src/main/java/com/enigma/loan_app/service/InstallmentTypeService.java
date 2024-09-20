@@ -8,4 +8,5 @@ public interface InstallmentTypeService {
     InstallmentType createInstallmentType(InstallmentType installmentType);
     InstallmentType findInstallmentTypeById(String id);
     List<InstallmentType> findAllInstallmentTypes();
+    void deleteInstallmentTypeById(String id);
 }

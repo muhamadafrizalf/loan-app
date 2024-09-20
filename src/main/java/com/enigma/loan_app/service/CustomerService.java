@@ -10,5 +10,5 @@ public interface CustomerService {
     Customer updateCustomer(CustomerRequest customerRequest);
     Customer findCustomerById(String id);
     List<Customer> findAllCustomers();
-    void deleteCustomer(String id);
+    void deleteCustomerById(String id);
 }

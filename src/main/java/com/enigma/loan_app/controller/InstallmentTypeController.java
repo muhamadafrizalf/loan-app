@@ -35,7 +35,7 @@ public class InstallmentTypeController {
                 .message("Successfully retrieved installment type")
                 .data(installmentType)
                 .build();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -45,6 +45,15 @@ public class InstallmentTypeController {
                 .message("Successfully retrieved " + installmentTypes.size() + " installment type(s)")
                 .data(installmentTypes)
                 .build();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteInstallmentTypeById(@PathVariable("id") String id) {
+        installmentTypeService.deleteInstallmentTypeById(id);
+        CommonResponse<?> response = CommonResponse.builder()
+                .message("Installment type deleted")
+                .build();
+        return ResponseEntity.ok(response);
     }
 }
