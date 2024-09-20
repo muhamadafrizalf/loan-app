@@ -13,9 +13,12 @@ import com.enigma.loan_app.service.LoanTransactionService;
 import com.enigma.loan_app.service.LoanTypeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +54,25 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .customerId(customer.getId())
                 .nominal(loanTransactionRequest.getNominal())
                 .createdAt(loanTransaction.getCreatedAt())
+                .build();
+    }
+
+    @Override
+    public LoanTransactionResponse findById(String id) {
+        if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loan id is empty");
+        LoanTransaction loanTransaction = loanTransactionRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan not found"));
+        return LoanTransactionResponse.builder()
+                .id(loanTransaction.getId())
+                .loanTypeId(loanTransaction.getLoanType().getId())
+                .installmentTypeId(loanTransaction.getInstalmentType().getId())
+                .customerId(loanTransaction.getCustomer().getId())
+                .nominal(loanTransaction.getNominal())
+                .createdAt(loanTransaction.getCreatedAt())
+                .loanTransactionDetails(!loanTransaction.getLoanTransactionDetails().isEmpty()?loanTransaction.getLoanTransactionDetails():new ArrayList<>())
+                .approvalStatus(loanTransaction.getApprovalStatus())
+                .approvalStatus(loanTransaction.getApprovalStatus())
+                .approvedAt(loanTransaction.getApprovedAt())
+                .approvedBy(loanTransaction.getApprovedBy())
                 .build();
     }
 }
