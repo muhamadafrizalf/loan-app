@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InstallmentTypeServiceImpl implements InstallmentTypeService {
@@ -24,5 +26,10 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
     public InstallmentType findInstallmentTypeById(String id) {
         if (id == null || id.isEmpty()) throw new IllegalArgumentException("Installment type id cannot be null or empty");
         return installmentTypeRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public List<InstallmentType> findAllInstallmentTypes() {
+        return installmentTypeRepository.findAll();
     }
 }

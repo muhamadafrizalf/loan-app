@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/installment-type")
 @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
@@ -32,6 +34,16 @@ public class InstallmentTypeController {
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
                 .message("Successfully retrieved installment type")
                 .data(installmentType)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllInstallmentTypes() {
+        List<InstallmentType> installmentTypes = installmentTypeService.findAllInstallmentTypes();
+        CommonResponse<List<InstallmentType>> response = CommonResponse.<List<InstallmentType>>builder()
+                .message("Successfully retrieved " + installmentTypes.size() + " installment type(s)")
+                .data(installmentTypes)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
