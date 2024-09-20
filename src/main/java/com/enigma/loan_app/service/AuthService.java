@@ -1,10 +1,11 @@
 package com.enigma.loan_app.service;
 
 import com.enigma.loan_app.dto.request.AuthRequest;
-import com.enigma.loan_app.entity.User;
+import com.enigma.loan_app.dto.response.LoginResponse;
+import com.enigma.loan_app.dto.response.RegisterResponse;
 
 public interface AuthService {
-    User signUpCustomer(AuthRequest authRequest);
-    User signUpAdmin(AuthRequest authRequest);
-    User signIn(AuthRequest authRequest);
+    RegisterResponse signUpCustomer(AuthRequest authRequest);
+    RegisterResponse signUpAdmin(AuthRequest authRequest);
+    LoginResponse signIn(AuthRequest authRequest);
 }
