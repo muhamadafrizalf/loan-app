@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.ELoanStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class LoanTransactionDetail {
 
     @ManyToOne
     @JoinColumn(name = "loan_transaction_id")
+    @JsonIgnore
     private LoanTransaction loanTransaction;
 
     @Column(name = "loan_status")
