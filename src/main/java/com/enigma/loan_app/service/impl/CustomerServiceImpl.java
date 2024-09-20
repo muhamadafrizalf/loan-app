@@ -1,5 +1,6 @@
 package com.enigma.loan_app.service.impl;
 
+import com.enigma.loan_app.dto.request.CustomerRequest;
 import com.enigma.loan_app.entity.Customer;
 import com.enigma.loan_app.repository.CustomerRepository;
 import com.enigma.loan_app.service.CustomerService;
@@ -19,13 +20,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        return null;
+    public Customer updateCustomer(CustomerRequest customerRequest) {
+        Customer customer = findCustomerById(customerRequest.getId());
+
+        customer.setFirstName(customerRequest.getFirstName());
+        customer.setLastName(customerRequest.getLastName());
+        customer.setPhone(customerRequest.getPhone());
+        customer.setDateOfBirth(customerRequest.getDateOfBirth());
+
+        return createCustomer(customer);
     }
 
     @Override
     public Customer findCustomerById(String id) {
-        return customerRepository.findById(id).orElse(null);
+        if (id == null || id.isEmpty()) {
+            throw new RuntimeException();
+        }
+        return customerRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override

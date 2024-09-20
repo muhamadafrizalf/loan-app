@@ -1,14 +1,12 @@
 package com.enigma.loan_app.controller;
 
+import com.enigma.loan_app.dto.request.CustomerRequest;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.entity.Customer;
 import com.enigma.loan_app.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,4 +35,16 @@ public class CustomerController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) {
+        Customer customer = customerService.updateCustomer(customerRequest);
+        CommonResponse<Customer> response = CommonResponse.<Customer>builder()
+                .message("Successfully updated customer")
+                .data(customer)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+
 }
