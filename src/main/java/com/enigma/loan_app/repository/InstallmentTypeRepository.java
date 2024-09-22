@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface InstallmentTypeRepository extends JpaRepository<InstallmentType, String> {
     Optional<InstallmentType> findByInstallmentType(EInstallmentType installmentType);
+    Integer countByInstallmentType(EInstallmentType installmentType);
 }
