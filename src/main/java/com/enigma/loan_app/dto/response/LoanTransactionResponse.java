@@ -14,13 +14,17 @@ import java.util.List;
 @Builder
 public class LoanTransactionResponse {
     private String id;
-    private String loanTypeId;
-    private String installmentTypeId;
-    private String customerId;
-    private Double nominal;
+    private String loanType;
+    private String maxLoan;
+    private String installmentType;
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerEmail;
+    private String customerPhone;
+    private String nominal;
     private LocalDateTime approvedAt;
     private String approvedBy;
-    private EApprovalStatus approvalStatus;
+    private String approvalStatus;
     private List<LoanTransactionDetail> loanTransactionDetails;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
