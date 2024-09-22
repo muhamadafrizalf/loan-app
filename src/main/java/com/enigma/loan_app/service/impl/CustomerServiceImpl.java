@@ -23,16 +23,19 @@ public class CustomerServiceImpl implements CustomerService {
 
     private Customer getCustomerOrThrow(String id) {
         if (id == null || id.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Message.CUSTOMER_ID_IS_EMPTY);
-        return customerRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Message.CUSTOMER_NOT_FOUND));
+        return customerRepository.findByIdAndStatus(id, EStatus.ACTIVE).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, Message.CUSTOMER_NOT_FOUND));
     }
 
     private void validatePhone(String phone) {
-        if (customerRepository.countByPhoneAndStatus(phone, EStatus.ACTIVE) > 0) throw new ResponseStatusException(HttpStatus.CONFLICT, Message.PHONE_ALREADY_EXIST);
+        if (customerRepository.countByPhoneAndStatus(phone, EStatus.ACTIVE) > 0)
+            throw new ResponseStatusException(HttpStatus.CONFLICT, Message.PHONE_ALREADY_EXIST);
     }
 
     @Transactional(rollbackOn = Exception.class)
     @Override
     public Customer create(Customer customer) {
+        customer.setStatus(EStatus.ACTIVE);
         return customerRepository.saveAndFlush(customer);
     }
 
@@ -59,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @Override
     public List<Customer> findAll() {
-        return customerRepository.findAll();
+        return customerRepository.findAllAndStatus(EStatus.ACTIVE);
     }
 
     @Transactional(rollbackOn = Exception.class)

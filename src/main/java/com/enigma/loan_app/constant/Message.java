@@ -18,5 +18,7 @@ public class Message {
     public static final String CONFIRM_PASSWORD_DO_NOT_MATCH = "The passwords do not match. Please try again.";
     public static final String CONFIRM_PASSWORD_IS_REQUIRED = "Please confirm your password. It is required.";
     // Not Found
-    public static final String CUSTOMER_NOT_FOUND = "Customer not found. Please check the provided information and try again.";
+    public static final String CUSTOMER_NOT_FOUND = "Customer not found. Please check the provided ID and try again.";
+    public static final String USER_NOT_FOUND = "User not found. Please check the provided ID and try again.";
+    public static final String EMAIL_NOT_FOUND = "Email not found. Please check the provided email and try again.";
 }
