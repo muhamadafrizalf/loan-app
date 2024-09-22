@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.ELoanStatus;
+import com.enigma.loan_app.constant.PathDb;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "trx_loan_detail")
+@Table(name = PathDb.LOAN_TRANSACTION_DETAIL)
 public class LoanTransactionDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

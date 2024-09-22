@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.EApprovalStatus;
+import com.enigma.loan_app.constant.PathDb;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "trx_loan")
+@Table(name = PathDb.LOAN_TRANSACTION)
 public class LoanTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

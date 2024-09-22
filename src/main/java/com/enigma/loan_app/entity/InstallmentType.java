@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.EInstallmentType;
+import com.enigma.loan_app.constant.PathDb;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "t_installment_type")
+@Table(name = PathDb.INSTALLMENT_TYPE)
 public class InstallmentType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

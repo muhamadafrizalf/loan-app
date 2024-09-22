@@ -41,6 +41,9 @@ public class LoanTransactionController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PutMapping
+    public ResponseEntity<?> approveTransaction() {
+        return null;
+    }
 
 }

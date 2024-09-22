@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.EStatus;
+import com.enigma.loan_app.constant.PathDb;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "mst_customer")
+@Table(name = PathDb.CUSTOMER)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -39,6 +39,7 @@ public class JwtUtil {
                     .withSubject(appUser.getId())
                     .withExpiresAt(Instant.now().plusSeconds(jwtExpired))
                     .withIssuedAt(Instant.now())
+                    .withClaim("email", appUser.getEmail())
                     .withClaim("roles", roles)
                     .sign(algorithm);
             return token;
@@ -77,6 +78,7 @@ public class JwtUtil {
             Map<String, String> userInfo = new HashMap<>();
             userInfo.put("userId", decodedJWT.getSubject());
             userInfo.put("role", decodedJWT.getClaim("roles").asString());
+            userInfo.put("email", decodedJWT.getClaim("email").asString());
             return userInfo;
         } catch (JWTVerificationException e) {
             log.error("invalid verification JWT: {}", e.getMessage());

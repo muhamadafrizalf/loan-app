@@ -1,5 +1,6 @@
 package com.enigma.loan_app.entity;
 
+import com.enigma.loan_app.constant.PathDb;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "mst_user")
+@Table(name = PathDb.USER)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

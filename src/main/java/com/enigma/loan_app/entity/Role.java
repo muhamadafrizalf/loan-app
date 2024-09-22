@@ -1,6 +1,7 @@
 package com.enigma.loan_app.entity;
 
 import com.enigma.loan_app.constant.ERole;
+import com.enigma.loan_app.constant.PathDb;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "t_role")
+@Table(name = PathDb.ROLE)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
