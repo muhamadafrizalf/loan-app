@@ -85,6 +85,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
         return mapToResponse(loanTransaction);
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @Override
     public LoanTransactionResponse findById(String id) {
         LoanTransaction loanTransaction = getLoanTransactionOrThrow(id);

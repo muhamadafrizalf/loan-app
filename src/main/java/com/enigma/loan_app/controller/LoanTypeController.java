@@ -1,5 +1,7 @@
 package com.enigma.loan_app.controller;
 
+import com.enigma.loan_app.constant.Message;
+import com.enigma.loan_app.constant.PathApi;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.entity.LoanType;
 import com.enigma.loan_app.service.LoanTypeService;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/loan-types")
+@RequestMapping(PathApi.LOAN_TYPE)
 @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
 @RequiredArgsConstructor
 public class LoanTypeController {
@@ -24,19 +26,19 @@ public class LoanTypeController {
     ) {
         LoanType createdLoanType = loanTypeService.create(loanType);
         CommonResponse<LoanType> response = CommonResponse.<LoanType>builder()
-                .message("Loan type created")
+                .message(Message.LOAN_TYPE_CREATED)
                 .data(createdLoanType)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathApi.ID)
     public ResponseEntity<?> getLoanTypeById(
             @PathVariable String id
     ) {
         LoanType loanType = loanTypeService.findById(id);
         CommonResponse<LoanType> response = CommonResponse.<LoanType>builder()
-                .message("Loan type found")
+                .message(Message.LOAN_TYPE_FOUND)
                 .data(loanType)
                 .build();
         return ResponseEntity.ok(response);
@@ -46,7 +48,7 @@ public class LoanTypeController {
     public ResponseEntity<?> getAllLoanTypes() {
         List<LoanType> loanTypes = loanTypeService.findAll();
         CommonResponse<List<LoanType>> response = CommonResponse.<List<LoanType>>builder()
-                .message("Loan types found")
+                .message(Message.LOAN_TYPE_FOUNDS(loanTypes.size()))
                 .data(loanTypes)
                 .build();
         return ResponseEntity.ok(response);
@@ -58,7 +60,7 @@ public class LoanTypeController {
     ) {
         LoanType updatedLoanType = loanTypeService.update(loanType);
         CommonResponse<LoanType> response = CommonResponse.<LoanType>builder()
-                .message("Loan type updated")
+                .message(Message.LOAN_TYPE_UPDATED)
                 .data(updatedLoanType)
                 .build();
         return ResponseEntity.ok(response);
@@ -70,7 +72,7 @@ public class LoanTypeController {
     ) {
         loanTypeService.delete(id);
         CommonResponse<?> response = CommonResponse.builder()
-                .message("Loan type deleted")
+                .message(Message.LOAN_TYPE_DELETED)
                 .build();
         return ResponseEntity.ok(response);
     }

@@ -1,5 +1,7 @@
 package com.enigma.loan_app.controller;
 
+import com.enigma.loan_app.constant.Message;
+import com.enigma.loan_app.constant.PathApi;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.entity.InstallmentType;
 import com.enigma.loan_app.service.InstallmentTypeService;
@@ -12,27 +14,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/installment-types")
+@RequestMapping(PathApi.INSTALLMENT_TYPE)
 @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
 @RequiredArgsConstructor
 public class InstallmentTypeController {
     private final InstallmentTypeService installmentTypeService;
 
     @PostMapping
-    public ResponseEntity<?> createInstallmentType(@RequestBody InstallmentType installmentType) {
+    public ResponseEntity<?> createInstallmentType(
+            @RequestBody InstallmentType installmentType
+    ) {
         InstallmentType createdInstallmentType = installmentTypeService.create(installmentType);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
-                .message("Installment type created")
+                .message(Message.INSTALLMENT_TYPE_CREATED)
                 .data(createdInstallmentType)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getInstallmentTypeById(@PathVariable("id") String id) {
+    @GetMapping(PathApi.ID)
+    public ResponseEntity<?> getInstallmentTypeById(
+            @PathVariable("id") String id
+    ) {
         InstallmentType installmentType = installmentTypeService.findById(id);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
-                .message("Successfully retrieved installment type")
+                .message(Message.INSTALLMENT_TYPE_FOUND)
                 .data(installmentType)
                 .build();
         return ResponseEntity.ok(response);
@@ -42,7 +48,7 @@ public class InstallmentTypeController {
     public ResponseEntity<?> getAllInstallmentTypes() {
         List<InstallmentType> installmentTypes = installmentTypeService.findAll();
         CommonResponse<List<InstallmentType>> response = CommonResponse.<List<InstallmentType>>builder()
-                .message("Successfully retrieved " + installmentTypes.size() + " installment type(s)")
+                .message(Message.INSTALLMENT_TYPE_FOUNDS(installmentTypes.size()))
                 .data(installmentTypes)
                 .build();
         return ResponseEntity.ok(response);
@@ -54,17 +60,19 @@ public class InstallmentTypeController {
     ) {
         InstallmentType updatedInstallmentType = installmentTypeService.update(installmentType);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()
-                .message("Installment type updated")
+                .message(Message.INSTALLMENT_TYPE_UPDATED)
                 .data(updatedInstallmentType)
                 .build();
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteInstallmentTypeById(@PathVariable("id") String id) {
+    @DeleteMapping(PathApi.ID)
+    public ResponseEntity<?> deleteInstallmentTypeById(
+            @PathVariable("id") String id
+    ) {
         installmentTypeService.deleteById(id);
         CommonResponse<?> response = CommonResponse.builder()
-                .message("Installment type deleted")
+                .message(Message.INSTALLMENT_TYPE_DELETED)
                 .build();
         return ResponseEntity.ok(response);
     }

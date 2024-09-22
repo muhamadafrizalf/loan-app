@@ -1,5 +1,7 @@
 package com.enigma.loan_app.controller;
 
+import com.enigma.loan_app.constant.Message;
+import com.enigma.loan_app.constant.PathApi;
 import com.enigma.loan_app.dto.request.LoanTransactionRequest;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.dto.response.LoanTransactionResponse;
@@ -11,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping(PathApi.LOAN_TRANSACTION)
 @RequiredArgsConstructor
 public class LoanTransactionController {
     private final LoanTransactionService loanTransactionService;
@@ -23,19 +25,19 @@ public class LoanTransactionController {
     ) {
         LoanTransactionResponse loanTransactionResponse = loanTransactionService.create(loanTransactionRequest);
         CommonResponse<LoanTransactionResponse> response = CommonResponse.<LoanTransactionResponse>builder()
-                .message("Successfully created transaction")
+                .message(Message.LOAN_TRANSACTION_CREATED)
                 .data(loanTransactionResponse)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathApi.ID)
     public ResponseEntity<?> getTransactionById(
             @PathVariable("id") String id
     ) {
         LoanTransactionResponse loanTransactionResponse = loanTransactionService.findById(id);
         CommonResponse<LoanTransactionResponse> response = CommonResponse.<LoanTransactionResponse>builder()
-                .message("Successfully retrieved transaction")
+                .message(Message.LOAN_TRANSACTION_FOUND)
                 .data(loanTransactionResponse)
                 .build();
         return ResponseEntity.ok(response);
