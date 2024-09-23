@@ -1,17 +1,14 @@
 package com.enigma.loan_app.service.impl;
 
+import com.enigma.loan_app.constant.EApprovalStatus;
+import com.enigma.loan_app.constant.ELoanStatus;
 import com.enigma.loan_app.constant.Message;
+import com.enigma.loan_app.dto.request.ApproveLoanRequest;
 import com.enigma.loan_app.dto.request.LoanTransactionRequest;
 import com.enigma.loan_app.dto.response.LoanTransactionResponse;
-import com.enigma.loan_app.entity.Customer;
-import com.enigma.loan_app.entity.InstallmentType;
-import com.enigma.loan_app.entity.LoanTransaction;
-import com.enigma.loan_app.entity.LoanType;
+import com.enigma.loan_app.entity.*;
 import com.enigma.loan_app.repository.LoanTransactionRepository;
-import com.enigma.loan_app.service.CustomerService;
-import com.enigma.loan_app.service.InstallmentTypeService;
-import com.enigma.loan_app.service.LoanTransactionService;
-import com.enigma.loan_app.service.LoanTypeService;
+import com.enigma.loan_app.service.*;
 import com.enigma.loan_app.util.ValidationUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
     private final LoanTypeService loanTypeService;
     private final InstallmentTypeService installmentTypeService;
     private final CustomerService customerService;
+    private final UserService userService;
     private final ValidationUtil validationUtil;
 
     private LoanTransaction getLoanTransactionOrThrow(String id) {
@@ -53,8 +53,8 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .customerPhone(loanTransaction.getCustomer().getPhone())
                 .nominal(loanTransaction.getNominal().toString())
                 .approvedBy(loanTransaction.getApprovedBy())
-                .approvalStatus(loanTransaction.getApprovalStatus().name())
-                .loanTransactionDetails(!loanTransaction.getLoanTransactionDetails().isEmpty() ? loanTransaction.getLoanTransactionDetails() : new ArrayList<>())
+                .approvalStatus(loanTransaction.getApprovalStatus() == null ? null : loanTransaction.getApprovalStatus().name())
+                .loanTransactionDetails(loanTransaction.getLoanTransactionDetails() == null ? new ArrayList<>() : loanTransaction.getLoanTransactionDetails())
                 .createdAt(loanTransaction.getCreatedAt())
                 .updatedAt(loanTransaction.getUpdatedAt())
                 .build();
@@ -92,4 +92,40 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
         return mapToResponse(loanTransaction);
     }
 
+    @Transactional(rollbackOn = Exception.class)
+    @Override
+    public LoanTransactionResponse approve(String adminId, ApproveLoanRequest approveLoanRequest) {
+        validationUtil.validate(approveLoanRequest);
+
+        AppUser admin = userService.loadUserById(adminId);
+        LoanTransaction uprovedLoanTransaction = getLoanTransactionOrThrow(approveLoanRequest.getLoanId());
+        if (uprovedLoanTransaction.getApprovalStatus() != null && uprovedLoanTransaction.getApprovalStatus().equals(EApprovalStatus.APPROVED))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Message.LOAN_TRANSACTION_ALREADY_APPROVED);
+
+        uprovedLoanTransaction.setApprovedBy(admin.getEmail());
+        uprovedLoanTransaction.setApprovedAt(LocalDateTime.now());
+        uprovedLoanTransaction.setApprovalStatus(EApprovalStatus.APPROVED);
+        uprovedLoanTransaction.setUpdatedAt(LocalDateTime.now());
+
+        Double nominal = uprovedLoanTransaction.getNominal();
+        Double interest = (approveLoanRequest.getInterestRate()+100)/100;
+        int period = uprovedLoanTransaction.getInstalmentType().getInstallmentType().getValue();
+
+        List<LoanTransactionDetail> loanTransactionDetails = new ArrayList<>();
+        for (int i = 0; i < period; i++) {
+            LoanTransactionDetail loanTransactionDetail = LoanTransactionDetail.builder()
+                    .dueDate(LocalDate.now().plusMonths(i+1))
+                    .nominal(nominal*interest/period)
+                    .loanTransaction(uprovedLoanTransaction)
+                    .loanStatus(ELoanStatus.UNPAID)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            loanTransactionDetails.add(loanTransactionDetail);
+        }
+
+        uprovedLoanTransaction.setLoanTransactionDetails(loanTransactionDetails);
+        loanTransactionRepository.saveAndFlush(uprovedLoanTransaction);
+
+        return mapToResponse(uprovedLoanTransaction);
+    }
 }

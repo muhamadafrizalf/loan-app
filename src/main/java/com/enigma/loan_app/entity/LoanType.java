@@ -4,6 +4,7 @@ import com.enigma.loan_app.constant.Message;
 import com.enigma.loan_app.constant.PathDb;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class LoanType {
     @Column
     private String type;
 
-    @NotBlank(message = Message.MAX_LOAN_IS_REQUIRED)
+    @NotNull(message = Message.MAX_LOAN_IS_REQUIRED)
     @Positive(message = Message.MAX_LOAN_MUST_POSITIVE)
     @Column(name = "max_loan")
     private Double maxLoan;

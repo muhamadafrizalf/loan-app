@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, String> {
     Optional<Customer> findByIdAndStatus(String id, EStatus status);
-    List<Customer> findAllAndStatus(EStatus status);
+    List<Customer> findByStatus(EStatus status);
     Integer countByPhoneAndStatus(String phoneNumber, EStatus status);
 }

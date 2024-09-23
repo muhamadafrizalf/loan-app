@@ -5,6 +5,7 @@ import com.enigma.loan_app.constant.PathApi;
 import com.enigma.loan_app.dto.response.CommonResponse;
 import com.enigma.loan_app.entity.InstallmentType;
 import com.enigma.loan_app.service.InstallmentTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class InstallmentTypeController {
 
     @PostMapping
     public ResponseEntity<?> createInstallmentType(
-            @RequestBody InstallmentType installmentType
+            @Valid @RequestBody InstallmentType installmentType
     ) {
         InstallmentType createdInstallmentType = installmentTypeService.create(installmentType);
         CommonResponse<InstallmentType> response = CommonResponse.<InstallmentType>builder()

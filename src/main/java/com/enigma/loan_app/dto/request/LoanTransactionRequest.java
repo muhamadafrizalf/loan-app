@@ -2,6 +2,7 @@ package com.enigma.loan_app.dto.request;
 
 import com.enigma.loan_app.constant.Message;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class LoanTransactionRequest {
     private String installmentTypeId;
     @NotBlank(message = Message.CUSTOMER_ID_IS_EMPTY)
     private String customerId;
-    @NotBlank(message = Message.NOMINAL_IS_REQUIRED)
+    @NotNull(message = Message.NOMINAL_IS_REQUIRED)
     @Positive(message = Message.NOMINAL_MUST_POSITIVE)
     private Double nominal;
 }

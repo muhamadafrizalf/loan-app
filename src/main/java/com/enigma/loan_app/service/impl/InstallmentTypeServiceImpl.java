@@ -35,7 +35,8 @@ public class InstallmentTypeServiceImpl implements InstallmentTypeService {
     @Transactional(rollbackOn = Exception.class)
     @Override
     public InstallmentType create(InstallmentType installmentType) {
-        validationUtil.validate(installmentType);
+//        validationUtil.validate(installmentType);
+
         Optional<InstallmentType> optionalInstallmentType = installmentTypeRepository.findByInstallmentType(installmentType.getInstallmentType());
         return optionalInstallmentType.orElseGet(() -> installmentTypeRepository.saveAndFlush(installmentType));
     }

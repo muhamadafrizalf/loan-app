@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.saveAndFlush(customer);
     }
 
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public Customer update(CustomerRequest customerRequest) {
         Customer customer = getCustomerOrThrow(customerRequest.getId());
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @Override
     public List<Customer> findAll() {
-        return customerRepository.findAllAndStatus(EStatus.ACTIVE);
+        return customerRepository.findByStatus(EStatus.ACTIVE);
     }
 
     @Transactional(rollbackOn = Exception.class)

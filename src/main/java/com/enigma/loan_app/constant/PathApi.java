@@ -17,4 +17,5 @@ public class PathApi {
     public static final String REGISTER_ADMIN = "/signup/admin";
     public static final String LOGIN = "/signin";
     public static final String ID = "/{id}";
+    public static final String APPROVE = "/{id}/approve";
 }

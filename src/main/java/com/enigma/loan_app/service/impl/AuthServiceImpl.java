@@ -92,8 +92,6 @@ public class AuthServiceImpl implements AuthService {
         roles.add(roleStaff);
 
         User user = createUser(authRequest, roles);
-        Customer customer = Customer.builder().user(user).build();
-        customerService.create(customer);
 
         return RegisterResponse.builder()
                 .email(user.getEmail())

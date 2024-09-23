@@ -49,7 +49,7 @@ public class LoanTransaction {
     private EApprovalStatus approvalStatus;
 
     @OneToMany(mappedBy = "loanTransaction")
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     private List<LoanTransactionDetail> loanTransactionDetails;
 
     @Column(name = "created_at")

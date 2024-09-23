@@ -26,6 +26,9 @@ public class LoanTransactionDetail {
     @Column(name = "transaction_date")
     private LocalDate transactionDate;
 
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
     @Column
     private Double nominal;
 
